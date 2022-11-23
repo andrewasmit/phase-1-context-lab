@@ -1,13 +1,98 @@
-/* Your Code Here */
+function createEmployeeRecord(arr){
+    let obj={
+    firstName: arr[0],
+    familyName: arr[1],
+    title: arr[2],
+    payPerHour: arr[3],
+    timeInEvents: [],
+    timeOutEvents: []
+    }
+    return obj;
+};
+// const andrew = createEmployeeRecord(['andrew', 'smit', 'mr.', 35]);
 
-/*
- We're giving you this function. Take a look at it, you might see some usage
- that's new and different. That's because we're avoiding a well-known, but
- sneaky bug that we'll cover in the next few lessons!
+function createEmployeeRecords(arr){
+    let newArr = arr.map(emp => createEmployeeRecord(emp));
+    // console.log(newArr);
+    return newArr;
+};
 
- As a result, the lessons for this function will pass *and* it will be available
- for you to use if you need it!
- */
+
+
+function createTimeInEvent(dateStr){
+    // console.log(this.timeInEvents);
+    this.timeInEvents.push({
+        type:'TimeIn',
+        hour: findHour(dateStr),
+        date: findDate(dateStr)
+    });
+    return this;
+};
+// createTimeInEvent.call(andrew, "2022-11-07 0600");
+// createTimeInEvent(andrew,"2022-11-09 0800");
+
+
+function createTimeOutEvent(dateStr){
+    this.timeOutEvents.push({
+        type : 'TimeOut',
+        hour: findHour(dateStr),
+        date: findDate(dateStr)
+    })
+    return this;
+};
+
+// createTimeOutEvent(andrew,"2022-11-07 1200");
+// createTimeOutEvent(andrew,"2022-11-09 1000");
+// console.log(andrew);
+
+
+
+function findHour(str){
+    return parseInt(str.substring(11));
+};
+
+function findDate(str){
+    return str.substring(0,10);
+};
+
+function hoursWorkedOnDate(dateStr){
+    let dateWorked = findDate(dateStr);
+    // console.log(dateWorked);
+    for (let i=0; i<this.timeInEvents.length; i++){
+       if(this.timeInEvents[i].date === dateWorked){
+        let hours = this.timeOutEvents[i].hour - this.timeInEvents[i].hour
+        return hours /100;
+       }
+    } 
+};
+
+function wagesEarnedOnDate(dateStr){
+    let hours = hoursWorkedOnDate(dateStr);
+    return this.payPerHour * hours;
+};
+
+// function allWagesFor(obj){
+//     let total = 0;
+//     for (let i=0; i<obj.timeInEvents.length; i++){
+//         let date = obj.timeInEvents[i].date;
+//         let dayWages = wagesEarnedOnDate(obj, date)
+//         total +=dayWages
+//     } 
+//     return total;
+// }
+
+function calculatePayroll(arr){
+    let total = 0;
+    for (const employee of arr){
+        total += allWagesFor(employee)
+    } 
+    return total;
+}
+
+
+
+
+
 
 const allWagesFor = function () {
     const eligibleDates = this.timeInEvents.map(function (e) {
@@ -20,4 +105,3 @@ const allWagesFor = function () {
 
     return payable
 }
-
